@@ -1,0 +1,39 @@
+/* Pixel-art styling for the desktop mascot. */
+
+.mascot-root {
+    -fx-background-color: transparent;
+}
+
+.mascot-view {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.35), 16, 0.1, 0, 5);
+}
+
+/* Right-click menu: matches the mascot's palette so the frameless window still
+   offers a way to switch states and quit during development. */
+.context-menu {
+    -fx-background-color: #3b2416;
+    -fx-background-radius: 8;
+    -fx-padding: 6;
+}
+
+.context-menu .menu-item {
+    -fx-background-radius: 5;
+}
+
+.context-menu .menu-item .label {
+    -fx-font-family: "Consolas";
+    -fx-font-size: 12px;
+    -fx-text-fill: #f8e7cb;
+}
+
+.context-menu .menu-item:focused {
+    -fx-background-color: #e3a65b;
+}
+
+.context-menu .menu-item:focused .label {
+    -fx-text-fill: #2a1a10;
+}
+
+.context-menu .separator .line {
+    -fx-border-color: #6b4a2f transparent transparent transparent;
+}

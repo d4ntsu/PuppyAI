@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane xmlns="http://javafx.com/javafx/24" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.puppy.controller.MascotController" fx:id="mascotRoot"
+           styleClass="mascot-root" prefWidth="240" prefHeight="180">
+    <ImageView fx:id="mascotView" styleClass="mascot-view"
+               fitWidth="204" fitHeight="136" preserveRatio="true" smooth="false"/>
+</StackPane>

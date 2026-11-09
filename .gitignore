@@ -1,0 +1,24 @@
+# Build output
+target/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+
+# Local configuration and secrets
+.env
+.env.local
+
+# Runtime data (database lives in the user's application-data folder)
+data/
+*.db
+*.sqlite
+
+# OS and logs
+Thumbs.db
+.DS_Store
+*.log

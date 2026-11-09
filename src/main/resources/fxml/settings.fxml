@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+
+<VBox xmlns="http://javafx.com/javafx/24" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.puppy.controller.SettingsController"
+      styleClass="panel-card" spacing="10" minWidth="0" minHeight="0">
+    <HBox styleClass="panel-header" alignment="CENTER_LEFT" spacing="8">
+        <Label text="Settings" styleClass="panel-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="_" onAction="#onMinimize" styleClass="window-button"/>
+        <Button text="X" onAction="#onClose" styleClass="window-button"/>
+    </HBox>
+    <VBox styleClass="settings-section" spacing="6">
+        <Label text="Desktop" styleClass="section-title"/>
+        <CheckBox fx:id="alwaysOnTopCheck" text="Keep Puppy above other windows"
+                  onAction="#onAlwaysOnTopChanged"/>
+        <Label text="You can collapse panels to return to the desktop mascot."
+               styleClass="muted-copy" wrapText="true"/>
+    </VBox>
+    <VBox styleClass="settings-section" spacing="6">
+        <HBox alignment="CENTER_LEFT" spacing="8">
+            <Label text="AI mode" styleClass="section-title"/>
+            <Label text="Coming soon" styleClass="status-pill"/>
+        </HBox>
+        <ComboBox fx:id="aiModeCombo" disable="true" promptText="Available after AI integration"
+                  maxWidth="Infinity"/>
+        <Label text="Online and local providers will be configured in a later milestone. "
+               styleClass="muted-copy" wrapText="true"/>
+        <Label text="Provider credentials are not requested or saved by this UI."
+               styleClass="muted-copy" wrapText="true"/>
+    </VBox>
+    <VBox styleClass="settings-section" spacing="6">
+        <Label text="About Puppy AI" styleClass="section-title"/>
+        <Label fx:id="versionLabel" text="Version" styleClass="muted-copy"/>
+    </VBox>
+</VBox>

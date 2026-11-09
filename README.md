@@ -4,10 +4,11 @@ A desktop AI companion: a pixel-art puppy that lives on your desktop, chats with
 you, researches the web and runs study sessions. JavaFX frontend with pure Java
 services in a single desktop process — no Python, no separate server.
 
-**Status: milestone 1 (Project foundation and JavaFX desktop shell).** The app
-launches as a frameless, transparent, always-on-top puppy that can be dragged
-around the desktop, and all six mascot animations play. Chat, AI, research and
-study mode arrive in later milestones.
+**Status: milestone 2 frontend complete.** The app launches as a frameless,
+transparent, always-on-top puppy. Hover gives a brief reaction, double-click
+opens Study / Chat / More, and the shell expands around the mascot while keeping
+its screen anchor. Chat uses mock replies and session-only history; Study uses
+the Pomodoro timer. AI providers and persistent chat history are future work.
 
 ## Requirements
 
@@ -42,11 +43,16 @@ mvn javafx:run        # launch Puppy
 | Action | Result |
 | --- | --- |
 | Drag with left mouse button | Move the puppy around the desktop |
-| Right-click | Menu: switch between the six animations, or quit |
+| Hover | Brief greeting and happy animation |
+| Double-click the puppy | Open or close the Study / Chat / More menu |
+| Study / Chat | Open the matching panel; close or minimize returns to the puppy |
+| More | Open Settings, session chat history, Help / About, collapse, or quit |
+| Escape | Close the current panel/menu and return to the puppy |
+| Right-click | Development menu: switch mascot states or quit |
 | Quit Puppy | Closes the window and shuts services down cleanly |
 
-There is deliberately no title bar, so right-click → **Quit Puppy** is the
-supported way to exit.
+There is deliberately no title bar, so use **More → Quit Puppy** (or the
+right-click development menu) to exit.
 
 ## Mascot states
 
@@ -99,10 +105,14 @@ Infrastructure        configuration, thread pool, repositories, HTTP clients
 | `PuppyApplication` | JavaFX entry point, builds the transparent always-on-top stage |
 | `ServiceRegistry` | Creates and shuts down application services |
 | `AppConfig` | App name, version, always-on-top flag, data directory |
-| `MascotController` | FXML controller: window dragging, right-click menu, state → animation |
+| `MascotController` | Expandable shell, mascot interactions, panel navigation and drag-safe movement |
 | `MascotAnimator` | Frame timing and viewport switching |
 | `MascotSprites` | Sheet layout and per-state animation metadata |
 | `MascotStateService` | Thread-safe current state with listener notifications |
+| `StudyTimer` | Timestamp-based Pomodoro countdown (25:00 focus / 5:00 break, test mode) |
+| `MockChatResponder` | Canned chat replies until the AI providers arrive |
+| `ChatController` / `StudyController` | Mock conversation UI and Pomodoro panel |
+| `SettingsController` | In-session desktop settings and future-feature notices |
 | `ThreadManager` | Daemon worker pool reserved for background work |
 
 Rules that keep the project clean:
@@ -119,23 +129,51 @@ pom.xml
 src/main/java/com/puppy/
 ├── PuppyApplication.java
 ├── config/       AppConfig, ServiceRegistry
-├── controller/   MascotController
-├── enums/        MascotState
-├── service/      MascotStateService, DefaultMascotStateService
+├── controller/   MascotController, ChatController, StudyController,
+│                 SettingsController
+├── enums/        MascotState, AIMode
+├── service/      MascotStateService, DefaultMascotStateService,
+│                 StudyTimer, MockChatResponder
 ├── ui/           MascotAnimator, MascotSprites
 └── util/         ThreadManager
 src/main/resources/
 ├── css/          puppy.css
-├── fxml/         mascot.fxml
+├── fxml/         shell.fxml, chat.fxml, study.fxml, settings.fxml
 ├── icons/        puppy.png
 └── sprites/      mascot_spritesheet.png
 src/test/java/com/puppy/
-├── service/      DefaultMascotStateServiceTest
+├── controller/   FxmlLayoutTest
+├── service/      DefaultMascotStateServiceTest, StudyTimerTest,
+│                 MockChatResponderTest
 └── ui/           MascotSpritesTest
 ```
 
 Planned packages from the implementation plan (`ai/`, `repository/`, `database/`,
 `web/`, and the remaining models/services) are added in their milestones.
+
+## Milestone 2 frontend and backend
+
+The app now follows the mascot → menu → Chat / Study / More flow. The expandable
+shell caches the Chat, Study and Settings panels; closing or minimizing a panel
+returns to the mascot. The current UI includes:
+
+- Chat with blank-input rejection, delayed mock replies, a new-conversation
+  action, and session-only conversation history.
+- Study with 25-minute focus / 5-minute break defaults, start/pause/reset and
+  focus/break completion feedback.
+- Settings for the in-session always-on-top option. AI mode/provider controls
+  are visibly marked as unavailable until AI integration arrives.
+- More with Settings, session chat history, Help / About, collapse-to-mascot
+  and Quit.
+
+Persistent history and provider credentials are not implemented or requested by
+this UI. A true hide-to-tray option is deferred; “Hide/show” safely collapses
+the expanded shell to the mascot.
+
+`StudyTimer` remains pure Java; `StudyController` owns the JavaFX ticker and
+calls `completePhase()` when a phase finishes. The chat panel uses the
+`MockChatResponder` from `ServiceRegistry` and runs its demo delay on the shared
+worker pool.
 
 ## Milestone 1 acceptance
 
@@ -148,6 +186,7 @@ Planned packages from the implementation plan (`ai/`, `repository/`, `database/`
 | All six animations play | Right-click menu, `MascotAnimator` |
 | Clean exit | `Application.stop()` → `ServiceRegistry.close()` |
 
-Known limitations at this milestone: the whole 240 × 180 window rectangle
-receives mouse input (JavaFX does not hit-test transparent pixels), and the
-mascot does not yet react to hover or double-click — that is milestone 2.
+Known limitations: JavaFX receives mouse input across the full window rectangle,
+including transparent pixels. Chat history is session-only, and provider
+configuration, persistent settings, a system tray and true hide/show behavior
+are future work.

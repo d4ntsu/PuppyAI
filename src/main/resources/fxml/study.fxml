@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/24" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.puppy.controller.StudyController"
+      styleClass="panel-card study-panel" spacing="8" minWidth="0" minHeight="0">
+    <HBox styleClass="study-header" alignment="CENTER_LEFT" spacing="4">
+        <Label text="Study Mode" styleClass="panel-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="_" onAction="#onMinimize" styleClass="window-button"/>
+        <Button text="X" onAction="#onClose" styleClass="window-button"/>
+    </HBox>
+    <HBox styleClass="study-content" alignment="CENTER" spacing="10" VBox.vgrow="ALWAYS">
+        <VBox styleClass="study-mascot-card" alignment="CENTER" spacing="8" HBox.hgrow="ALWAYS" prefWidth="170">
+            <ImageView fx:id="studyMascotView" styleClass="mascot-view"
+                       fitWidth="120" fitHeight="80" preserveRatio="true" smooth="false"/>
+            <Label fx:id="encouragementLabel" text="Ready when you are."
+                   wrapText="true" styleClass="muted-copy" alignment="CENTER"/>
+        </VBox>
+        <VBox styleClass="timer-card" alignment="CENTER" spacing="8" HBox.hgrow="ALWAYS" prefWidth="170">
+            <Label fx:id="phaseLabel" text="FOCUS TIME" styleClass="section-title"/>
+            <Label fx:id="timeLabel" text="25:00" styleClass="timer-text"/>
+            <HBox alignment="CENTER" spacing="8">
+                <Button fx:id="startPauseButton" text="Start" onAction="#toggleTimer"
+                        styleClass="primary-button"/>
+                <Button text="Reset" onAction="#resetTimer" styleClass="quiet-button"/>
+            </HBox>
+        </VBox>
+    </HBox>
+</VBox>

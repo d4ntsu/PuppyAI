@@ -21,8 +21,8 @@ import java.util.Objects;
 /**
  * Entry point for the Puppy AI desktop application.
  *
- * <p>Milestone 1 shows a frameless, transparent, always-on-top window containing
- * the animated mascot, which can be dragged around the desktop.</p>
+ * <p>Shows a frameless, transparent desktop mascot with an expandable menu and
+ * cached chat, study and settings panels.</p>
  */
 public final class PuppyApplication extends Application {
 
@@ -31,6 +31,7 @@ public final class PuppyApplication extends Application {
     private static final double SCREEN_MARGIN = 32;
 
     private ServiceRegistry services;
+    private MascotController controller;
 
     public static void main(String[] args) {
         launch(args);
@@ -44,9 +45,9 @@ public final class PuppyApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(PuppyApplication.class.getResource("/fxml/mascot.fxml"));
+        FXMLLoader loader = new FXMLLoader(PuppyApplication.class.getResource("/fxml/shell.fxml"));
         Parent root = loader.load();
-        MascotController controller = loader.getController();
+        controller = loader.getController();
 
         Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
         scene.setFill(Color.TRANSPARENT);
@@ -63,8 +64,7 @@ public final class PuppyApplication extends Application {
         }
         stage.setScene(scene);
 
-        controller.installWindowBehaviour(stage);
-        controller.attach(services.mascotStateService());
+        controller.attach(stage, services);
 
         positionInScreenCorner(stage);
         stage.show();
@@ -72,6 +72,9 @@ public final class PuppyApplication extends Application {
 
     @Override
     public void stop() {
+        if (controller != null) {
+            controller.close();
+        }
         if (services != null) {
             services.close();
         }

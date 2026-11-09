@@ -2,6 +2,7 @@ package com.puppy.config;
 
 import com.puppy.service.DefaultMascotStateService;
 import com.puppy.service.MascotStateService;
+import com.puppy.service.MockChatResponder;
 import com.puppy.util.ThreadManager;
 
 import java.util.Objects;
@@ -19,6 +20,7 @@ public final class ServiceRegistry implements AutoCloseable {
     private final AppConfig config;
     private final ThreadManager threadManager;
     private final MascotStateService mascotStateService;
+    private final MockChatResponder mockChatResponder;
 
     private boolean started;
     private boolean closed;
@@ -27,6 +29,7 @@ public final class ServiceRegistry implements AutoCloseable {
         this.config = Objects.requireNonNull(config, "config");
         this.threadManager = new ThreadManager(config.appName());
         this.mascotStateService = new DefaultMascotStateService();
+        this.mockChatResponder = new MockChatResponder();
     }
 
     /** Initializes the services that need explicit startup. Safe to call once. */
@@ -48,6 +51,14 @@ public final class ServiceRegistry implements AutoCloseable {
 
     public MascotStateService mascotStateService() {
         return mascotStateService;
+    }
+
+    /**
+     * Placeholder replies for the chat UI until milestone 4 adds the real
+     * {@code ChatService} and AI providers.
+     */
+    public MockChatResponder mockChatResponder() {
+        return mockChatResponder;
     }
 
     public ThreadManager threadManager() {

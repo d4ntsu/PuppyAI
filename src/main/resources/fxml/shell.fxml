@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/24" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.puppy.controller.MascotController" fx:id="shellRoot"
+      styleClass="shell-root" prefWidth="240" prefHeight="180" spacing="10">
+    <StackPane fx:id="panelHost" styleClass="panel-host" visible="false" managed="false"
+               VBox.vgrow="ALWAYS"/>
+    <StackPane fx:id="menuHost" styleClass="menu-host" visible="false" managed="false">
+        <HBox fx:id="mainMenu" styleClass="main-menu" spacing="4">
+            <Button text="Study" onAction="#openStudy" styleClass="menu-button"/>
+            <Button text="Chat" onAction="#openChat" styleClass="menu-button"/>
+            <Button text="More" onAction="#openMore" styleClass="menu-button"/>
+        </HBox>
+    </StackPane>
+    <StackPane fx:id="mascotDock" styleClass="mascot-dock" prefHeight="150"
+               minHeight="120" alignment="CENTER">
+        <ImageView fx:id="mascotView" styleClass="mascot-view"
+                   fitWidth="204" fitHeight="136" preserveRatio="true" smooth="false"
+                   StackPane.alignment="CENTER"/>
+        <Label fx:id="hoverHint" text="Hello!" styleClass="hover-hint"
+               visible="false" managed="false" StackPane.alignment="TOP_CENTER"/>
+    </StackPane>
+</VBox>

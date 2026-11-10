@@ -45,7 +45,7 @@ mvn javafx:run        # launch Puppy
 | Drag with left mouse button | Move the puppy around the desktop |
 | Hover | Brief greeting and happy animation |
 | Double-click the puppy | Open or close the Study / Chat / More menu |
-| Study / Chat | Open the matching panel; close or minimize returns to the puppy |
+| Study / Chat | Open the matching panel above the puppy; close or minimize returns to the puppy |
 | More | Open Settings, session chat history, Help / About, collapse, or quit |
 | Escape | Close the current panel/menu and return to the puppy |
 | Right-click | Development menu: switch mascot states or quit |
@@ -71,17 +71,17 @@ for a state change.
 
 ## Sprite sheet
 
-`src/main/resources/sprites/mascot_spritesheet.png` is a **6 × 6 grid**: six
+`src/main/resources/sprites/new_spritesheet.png` is a **6 × 6 grid**: six
 animation frames per row and one row per state, in the order shown above. The
-current sheet uses 102 × 68 px cells, but the animator derives the frame size
+current sheet uses 128 × 128 px cells, but the animator derives the frame size
 from the image, so any sheet that stays on the 6 × 6 grid works without code
 changes. Frames are played by moving the image view's viewport, which keeps
 state switches cheap.
 
 The animator cuts exact cells, so each frame must be drawn on the same anchor:
 centred horizontally and with the paws on a common ground line, with effects
-kept inside the cell. The current sheet does not follow that rule, which makes
-animations shake and lets parts of one row appear in the next.
+kept inside the cell. Breaking that rule makes animations shake and lets parts
+of one row appear in the next.
 
 Use `docs/spritesheet-guide.png` (768 × 768, 128 × 128 px cells) as a trace layer
 and follow [docs/SPRITESHEET_GUIDE.md](docs/SPRITESHEET_GUIDE.md) for the anchor
@@ -140,7 +140,7 @@ src/main/resources/
 ├── css/          puppy.css
 ├── fxml/         shell.fxml, chat.fxml, study.fxml, settings.fxml
 ├── icons/        puppy.png
-└── sprites/      mascot_spritesheet.png
+└── sprites/      new_spritesheet.png
 src/test/java/com/puppy/
 ├── controller/   FxmlLayoutTest
 ├── service/      DefaultMascotStateServiceTest, StudyTimerTest,

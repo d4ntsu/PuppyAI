@@ -38,12 +38,15 @@ import java.util.function.Consumer;
  */
 public class MascotController {
 
-    private static final double COMPACT_WIDTH = 240;
-    private static final double COMPACT_HEIGHT = 180;
+    private static final double COMPACT_WIDTH = 336;
+    private static final double COMPACT_HEIGHT = 252;
     private static final double MENU_WIDTH = 380;
     private static final double MENU_HEIGHT = 360;
+    private static final double STUDY_WIDTH = 380;
+    private static final double STUDY_HEIGHT = 470;
     private static final double PANEL_WIDTH = 560;
     private static final double PANEL_HEIGHT = 450;
+    private static final double SETTINGS_HEIGHT = 620;
     private static final double DRAG_THRESHOLD = 5;
 
     @FXML
@@ -166,10 +169,11 @@ public class MascotController {
             panelHost.setManaged(true);
             panelHost.setVisible(true);
             activePanel = panel;
-            if (panel == Panel.STUDY) {
-                resizeShell(MENU_WIDTH, MENU_HEIGHT);
-            } else {
-                resizeShell(PANEL_WIDTH, PANEL_HEIGHT);
+            // Panel windows must fit the panel above the mascot dock, not just the panel.
+            switch (panel) {
+                case STUDY -> resizeShell(STUDY_WIDTH, STUDY_HEIGHT);
+                case SETTINGS -> resizeShell(PANEL_WIDTH, SETTINGS_HEIGHT);
+                case CHAT -> resizeShell(PANEL_WIDTH, PANEL_HEIGHT);
             }
         } catch (PanelLoadException e) {
             throw new IllegalStateException("Could not open " + panel.name().toLowerCase() + " panel", e.getCause());
@@ -288,8 +292,13 @@ public class MascotController {
         double anchorRight = stage.getX() + stage.getWidth();
         double anchorBottom = stage.getY() + stage.getHeight();
         shellRoot.setPrefSize(width, height);
+        // A non-resizable stage sizes itself back to its scene, so allow resizing
+        // for the duration of the programmatic change.
+        boolean resizable = stage.isResizable();
+        stage.setResizable(true);
         stage.setWidth(width);
         stage.setHeight(height);
+        stage.setResizable(resizable);
         stage.setX(anchorRight - stage.getWidth());
         stage.setY(anchorBottom - stage.getHeight());
     }

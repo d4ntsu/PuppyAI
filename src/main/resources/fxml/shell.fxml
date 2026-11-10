@@ -9,7 +9,7 @@
 
 <VBox xmlns="http://javafx.com/javafx/24" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.puppy.controller.MascotController" fx:id="shellRoot"
-      styleClass="shell-root" prefWidth="240" prefHeight="180" spacing="10">
+      styleClass="shell-root" prefWidth="336" prefHeight="252" spacing="10">
     <StackPane fx:id="panelHost" styleClass="panel-host" visible="false" managed="false"
                VBox.vgrow="ALWAYS"/>
     <StackPane fx:id="menuHost" styleClass="menu-host" visible="false" managed="false">
@@ -19,10 +19,10 @@
             <Button text="More" onAction="#openMore" styleClass="menu-button"/>
         </HBox>
     </StackPane>
-    <StackPane fx:id="mascotDock" styleClass="mascot-dock" prefHeight="150"
-               minHeight="120" alignment="CENTER">
+    <StackPane fx:id="mascotDock" styleClass="mascot-dock" prefHeight="210"
+               minHeight="168" alignment="CENTER">
         <ImageView fx:id="mascotView" styleClass="mascot-view"
-                   fitWidth="204" fitHeight="136" preserveRatio="true" smooth="false"
+                   fitWidth="286" fitHeight="190" preserveRatio="true" smooth="false"
                    StackPane.alignment="CENTER"/>
         <Label fx:id="hoverHint" text="Hello!" styleClass="hover-hint"
                visible="false" managed="false" StackPane.alignment="TOP_CENTER"/>

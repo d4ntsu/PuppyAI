@@ -26,8 +26,8 @@ import java.util.Objects;
  */
 public final class PuppyApplication extends Application {
 
-    private static final double SCENE_WIDTH = 240;
-    private static final double SCENE_HEIGHT = 180;
+    private static final double SCENE_WIDTH = 336;
+    private static final double SCENE_HEIGHT = 252;
     private static final double SCREEN_MARGIN = 32;
 
     private ServiceRegistry services;

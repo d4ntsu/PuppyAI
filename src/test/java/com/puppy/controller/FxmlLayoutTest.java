@@ -6,6 +6,8 @@ import com.puppy.enums.MascotState;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -53,7 +55,7 @@ class FxmlLayoutTest {
                 FXMLLoader shellLoader = new FXMLLoader(getClass().getResource("/fxml/shell.fxml"));
                 Parent shell = shellLoader.load();
                 controller = shellLoader.getController();
-                stage.setScene(new Scene(shell, 240, 180));
+                stage.setScene(new Scene(shell, 336, 252));
                 stage.getScene().getStylesheets().add(
                         getClass().getResource("/css/puppy.css").toExternalForm());
                 stage.setResizable(false);
@@ -87,7 +89,7 @@ class FxmlLayoutTest {
                 Event.fireEvent(mascotDock, doubleClick());
                 double anchoredRight = stage.getX() + stage.getWidth();
                 double anchoredBottom = stage.getY() + stage.getHeight();
-                assertTrue(stage.getWidth() > 240, "The menu should expand the shell");
+                assertTrue(stage.getWidth() > 336, "The menu should expand the shell");
                 double menuWidth = stage.getWidth();
                 double menuHeight = stage.getHeight();
                 assertTrue(Math.abs(anchoredRight - expectedRight) < 1,
@@ -101,14 +103,26 @@ class FxmlLayoutTest {
                         "Study should open in the panel host");
                 assertEquals(menuWidth, stage.getWidth(),
                         "Study should use the same shell width as the menu");
-                assertEquals(menuHeight, stage.getHeight(),
-                        "Study should use the same shell height as the menu");
+                assertTrue(stage.getHeight() > menuHeight,
+                        "Study should leave room for the mascot below the panel");
                 assertEquals("Study Mode",
                         ((Label) shell.lookup(".study-header .panel-title")).getText(),
                         "The Study panel title should identify Study Mode");
                 assertNull(shell.lookup(".study-footer"),
                         "The separate Study footer should be removed");
                 Button studyToggle = (Button) shell.lookup("#startPauseButton");
+                assertTrue(stage.getScene().getWidth() > 340,
+                        "The scene should grow with the panel window");
+                Node panelNode = shell.lookup(".panel-host");
+                Bounds panelBounds = panelNode.localToScene(panelNode.getBoundsInLocal());
+                Bounds toggleBounds = studyToggle.localToScene(studyToggle.getBoundsInLocal());
+                assertTrue(panelBounds.contains(toggleBounds),
+                        "The timer button must stay inside the visible panel to be clickable");
+                assertTrue(mascotDock.isVisible(),
+                        "The mascot should stay visible while a panel is open");
+                Bounds dockBounds = mascotDock.localToScene(mascotDock.getBoundsInLocal());
+                assertFalse(panelBounds.intersects(dockBounds),
+                        "The panel must not cover the mascot");
                 studyToggle.fire();
                 assertTrue("Pause".equals(studyToggle.getText()),
                         "Starting a session should switch the button to Pause");

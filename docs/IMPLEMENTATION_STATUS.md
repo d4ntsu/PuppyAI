@@ -8,7 +8,7 @@ Last updated: 2026-11-09
 | --- | --- | --- |
 | 1 | Project foundation and JavaFX desktop shell | ✅ Complete |
 | 2 | Frontend interactions and UI | ✅ Complete |
-| 3 | Pure Java services and SQLite persistence | Pending |
+| 3 | Pure Java services and SQLite persistence | Planned — see `docs/MILESTONE_3_PLAN.md` |
 | 4 | AI integration (cloud + Ollama) | Pending |
 | 5 | Internet research and extraction | Pending |
 | 6 | Study mode, settings, integration | Pending |
@@ -69,10 +69,10 @@ Last updated: 2026-11-09
   JDK 23+, so `pom.xml` sets `java.version` to 24. Bump the property after
   installing JDK 25.
 - **Sprites:** the sheet is a 6 × 6 grid (row per state, 6 frames per row,
-  102 × 68 px cells today). Frame size is derived at runtime, so new art with the
-  same grid shape requires no code change. `docs/SPRITESHEET_GUIDE.md` specifies
-  the replacement grid (768 × 768, 128 × 128 px cells) and ships a trace template
-  at `docs/spritesheet-guide.png`.
+  768 × 768 with 128 × 128 px cells today). Frame size is derived at runtime, so
+  new art with the same grid shape requires no code change.
+  `docs/SPRITESHEET_GUIDE.md` specifies that grid and ships a trace template at
+  `docs/spritesheet-guide.png`.
 - **State priority:** `DefaultMascotStateService` currently lets the latest
   request win; the priority rules (study must not be interrupted by an idle
   refresh) belong to milestone 6.
@@ -81,11 +81,11 @@ Last updated: 2026-11-09
 
 ## Known bugs / limitations
 
-- Mascot frames are not anchored to a common centre and ground line, and effects
-  such as bubbles reach across cell borders. Animations therefore shake, and the
-  TALKING row shows paws from the row above. This is artwork, not slicing: the
-  animator cuts exact cells. Fix the sheet with `docs/SPRITESHEET_GUIDE.md`.
-- The entire 240 × 180 window captures mouse input, including transparent
+- The previous mascot sheet was not anchored to a common centre and ground line,
+  and its effects crossed cell borders, so animations shook and the TALKING row
+  showed paws from the row above. The current sheet follows the anchor rules in
+  `docs/SPRITESHEET_GUIDE.md`; the animator cuts exact cells either way.
+- The entire 336 × 252 window captures mouse input, including transparent
   pixels; per-pixel hit testing is not part of the MVP.
 - The Chat history is session-only; SQLite persistence is a later milestone.
 - True hide-to-tray is deferred until a reliable restore path is implemented.

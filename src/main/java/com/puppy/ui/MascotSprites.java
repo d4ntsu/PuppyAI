@@ -23,7 +23,7 @@ import java.util.Objects;
 public final class MascotSprites {
 
     /** Classpath location of the mascot spritesheet. */
-    public static final String SHEET_RESOURCE = "/sprites/mascot_spritesheet.png";
+    public static final String SHEET_RESOURCE = "/sprites/new_spritesheet.png";
 
     /** Frames per animation (columns in the sheet). */
     public static final int COLUMNS = 6;

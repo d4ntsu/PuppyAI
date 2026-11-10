@@ -83,7 +83,7 @@ Aseprite / GIMP / Krita / Paint.NET all work:
    to head top) and place it once, then copy it into every cell and change only
    the moving parts. That alone removes the shaking.
 5. Hide the template layer, export as PNG (RGBA), and overwrite
-   `src/main/resources/sprites/mascot_spritesheet.png`.
+   `src/main/resources/sprites/new_spritesheet.png`.
 6. Run the app and use right-click → **State → …** to check each row:
    - the dog should sit perfectly still in TALKING and STUDYING
    - no fragments of another row may appear at the top of any cell
@@ -122,7 +122,7 @@ check these by eye:
 | Dog changes size between frames | Inconsistent scale | Scale all frames to one head width |
 | Visible jump at loop | Frame 6 ≠ approach to frame 1 | Make frame 6 a near-copy of frame 1 |
 | Blank/black frame | Cell left empty | Fill all 36 cells (the test catches this) |
-| Dog looks smaller than before | Square cells are shown at 136 px tall | Crop tighter inside the safe box, or ask for the display size to be raised |
+| Dog looks smaller than before | Square cells are shown at 190 px tall | Crop tighter inside the safe box, or ask for the display size to be raised |
 
 Cell size must be a whole number of pixels and the sheet must stay exactly
 6 columns × 6 rows; the tests fail otherwise.
